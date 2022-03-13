@@ -27,7 +27,7 @@ A Disabling approach is any unhooking methodology which involves modifying hooke
 
 ### Downside
 
-By overwriting the hooked DLLs with unhooked ones, Cylance takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it.
+By overwriting the hooked DLLs with unhooked ones, the Disabling approach takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it.
 
 ### Upside
 
