@@ -1,7 +1,3 @@
-## Introvert
-
-Introvert seeks to isolate imported subroutine calls in a way that deters endpoint security drivers from patching in run-time analysis hooks. This transformation is designed to demonstrate a fundamental weakness in modern endpoint threat detection and encourage the exploration of new solutions to address this critical cyber security challenge.
-
 ## Underlying Concept
 
 
