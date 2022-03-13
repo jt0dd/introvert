@@ -23,7 +23,7 @@ A Disabling approach is any unhooking methodology which involves modifying hooke
 
 ### Downside
 
-By overwriting the hooked DLLs with unhooked ones, the Disabling approach takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it.
+By overwriting the hooked DLLs with unhooked ones, the Disabling approach takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it. Additionally, this approach requires the attacker to trust the defender's DLLs on disk. While it is true that Windows protects files in the system folder from modification, a driver can be leveraged to [observe](https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/filter-manager-concepts) and redirect any file reads of the unhooked DLLs to retrieve hooked copies in an alternate location instead.
 
 ### Upside
 
@@ -48,4 +48,4 @@ Doing this with source code is a simple matter of compiler flags. However, the r
 
 ## Objective
 
-The outcome this library seeks to achieve is cutting-edge unhooking via plug-and-play static re-linking. To address the portability limitation created by static linking, Windows kernel and API DLLs should be stored into a database table corresponding to each release of the OS. A loader is embedded which, when executed on a target machine, calls back to the C2 server signaling the target OS version, which in turn sends the corresponding statically linked payload as a response. This approach, while sophisticated, removes any opportunity for the defender's endpoint sensors to track activity through OS API hooks.
+The outcome this library seeks to achieve is cutting-edge unhooking via plug-and-play static re-linking. To address the portability limitation created by static linking, Windows kernel and API DLLs should be stored into a database table corresponding to each release of the OS. A loader is embedded which, when executed on a target machine, calls back to the C2 server signaling the target OS version, which in turn sends the corresponding statically linked payload as a response. This approach, while sophisticated, removes any opportunity for the defender's endpoint sensors to defeat an unhooking attempt by hooking the DLLs on disk.
