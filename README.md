@@ -25,11 +25,11 @@ But there's a weakness in this approach. It requires that the attacker trust the
 
 A Disabling approach is any unhooking methodology which involves modifying hooked code in order to bypass or remove the hook.
 
-### Down-side of the Disabling Approach
+### The bad
 
 By overwriting the hooked DLLs with unhooked ones, Cylance takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it.
 
-### Benefit of the disabling approach
+### The good
 
 This approach allows the attacker's payload to be portable. That's a big upside.
 
@@ -37,11 +37,11 @@ This approach allows the attacker's payload to be portable. That's a big upside.
 
 A Side-Stepping approach is any unhooking methodology which involves using a trusted, clean copy of the DLL directly without modifying the defender's hooks.
 
-### Down-side of the side-stepping approach
+### The bad
 
 This approach is not portable. It requires the attacker to send a payload corresponding to the specific target host's Windows version. That adds a outbound network request which must avoid alerting the defender's sensors and analysts.
 
-### Benefits of side-stepping
+### The good
 
 This approach does not require the attacker to trust the defender's DLL copies on disk.
 
