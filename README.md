@@ -5,7 +5,7 @@
 
 Hooking is a key form of Dynamic Analysis. Security engineers know that emulation is not a reliable medium for analysis. This is where hooking comes into play: Detect the malicious behavior at run-time. So, how does it work? Most programs designed for user-mode execution call out to standard libraries and APIs which are dynamically linked into the program's memory space from shared memory at run-time by the linker. Security products commonly patch hooks into this shared memory space. Hooks work by replacing the entrypoint to an API subroutine with a jump out to an intermediary analytic subroutine before jumping back into the intended API subroutine. Hooking can facilitate analysis of OS API and shared library call sequences and system call sequences.
 
-## State of the Art
+## State of the Art (Unhooking)
 
 The solution options to unhooking are fairly straight-forward: Disable the hook, or side-step it. [Cylance's approach to unhooking](https://blogs.blackberry.com/en/2017/02/universal-unhooking-blinding-security-software), leveraging a disabling approach, was cutting edge in the problem-space at the time of publication in 2017:
 
