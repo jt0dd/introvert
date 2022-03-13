@@ -39,7 +39,7 @@ A Side-Stepping approach is any unhooking methodology which involves using a tru
 
 ### Downside
 
-This approach is not portable. It requires the attacker to send a payload corresponding to the specific target host's Windows version. That adds a outbound network request which must avoid alerting the defender's sensors and analysts.
+This approach is not portable. Because each version of Windows has the potential to change its kernel bindings, a DLL linked on one Windows version may not work on another version. This approach requires the attacker to send a payload corresponding to the specific target host's Windows version. That adds a outbound network request which must avoid alerting the defender's sensors and analysts.
 
 ### Upside
 
