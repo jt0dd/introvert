@@ -12,6 +12,8 @@ The approaches to perform unhooking are fairly straight-forward: Disable the hoo
 > "Basically, in the user-land space, it goes through all the modules loaded into a process, and then for each module it opens the file, processes the data, [gets a] clean view of what the DLL should look like. And then for each section in the DLL that isn't writeable, we compare that clean version to the current version and if they don't match replace the current version with the clean." - Cylance CEO  Stuart McClure, RA Conference 2017
 But there's a weakness in this approach. It requires that the attacker trust the DLL on disk. By applying hooks to the DLLs on disk, a defender would theoretically win. While it is true that DLLs in the system folder are protected from modification, it is possible through drivers to redirect any filesystem loads of the protected system DLLs to the ones modified by the security product.
 
+This approach likely still represents state-of-the-art, however this writing attempts to outline a potential weakness in the approach and explore an alternative.
+
 ## Disabling Approach
 
 A Disabling approach is any unhooking methodology which involves modifying hooked code in order to bypass or remove the hook.
