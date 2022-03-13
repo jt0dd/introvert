@@ -16,18 +16,18 @@ In order to evade endpoint security hooks within shared libraries, it is necessa
 
 ## Context
 
-Cylance's approach to unhooking, at least a few years ago, was cutting edge, at least as far as I'm aware. To quote the video presentation:
+Searches for existing solutions to this problem present various approaches. However, [Cylance's approach to unhooking](https://blogs.blackberry.com/en/2017/02/universal-unhooking-blinding-security-software), at least a few years ago, was cutting edge in the problem-space:
 
 > "Basically, in the user-land space, it goes through all the modules loaded into a process, and then for each module it opens the file, processes the data, [gets a] clean view of what the DLL should look like. And then for each section in the DLL that isn't writeable, we compare that clean version to the current version and if they don't match replace the current version with the clean." - Cylance CEO  Stuart McClure, RA Conference 2017
 But there's a weakness in this approach. It requires that the attacker trust the DLL on disk. By applying hooks to the DLLs on disk, a defender would theoretically win. While it is true that DLLs in the system folder are protected from modification, it is possible through drivers to redirect any filesystem loads of the protected system DLLs to the ones modified by the security product.
 
-### Target
-So I want to demonstrate a tool where one drops in a dynamically linked PE and outputs a statically linked one. Yes, the statically linked PE will only likely work on the Windows version is was compiled on. That's a limitation that can be worked around.
+## Target
+So I want to demonstrate a tool where one drops in a dynamically linked PE and outputs a statically linked one. Yes, the statically linked PE will only likely work on the Windows version it was compiled on. That's a limitation that can be worked around.
 
-### Problem
+## Problem
 
 Doing this with source code is a simple matter of compiler flags. However, the requirement of access to source code can be overly limiting. Many offensive tools are not open source. It is preferable to be able to emulate any adversary tool, regardless of access to source code.
 
-### Objective
+## Objective
 
 The outcome this library seeks to achieve is cutting-edge unhooking via plug-and-play static re-linking. To address the portability limitation created by static linking, Windows kernel and API DLLs are stored into a database for each release of the OS. A loader is embedded which, when executed on a target machine, calls back to the C2 server, which statically links the corresponding OS API and sends it to the remote loader. This approach, while sophisticated, removes any opportunity for the defender's endpoint sensors to track activity through OS API hooks.
