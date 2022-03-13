@@ -14,15 +14,37 @@ Hooking is a key form of Dynamic Analysis. Security engineers know that emulatio
 
 In order to evade endpoint security hooks within shared libraries, it is necessary to either remove them (an invasive and unstable option) or side-step them by loading a trusted, unhooked clean version of the dependency and store it statically. The Unhooking transformation step mitigates not only Hooking but also Static Analysis. Merely including certain API resources as imports for the linker can tip off a security product to the malicious potential of the program. The process of Unhooking removes such traces from the observation scope of Static Analysis. Unhooking is complicated by one problem: Dynamically linked subroutines exposed by the Windows kernel are wrappers which have different implementations across different OS versions. These cannot be statically linked, unless the attacker wants the responsibility of generating a separate version of the malware for every individual target environment. Fortunately for the attacker, this problem can be side-stepped. Thanks to Windows' Patch Guard, security products cannot apply hooks to kernel components; at least not in modern 64-bit versions of the OS. Therefore, while all other external imports should be consolidated, Windows kernel imports can be left alone.
 
-## Context
+## State of the Art
 
-Searches for existing solutions to this problem present various approaches. However, [Cylance's approach to unhooking](https://blogs.blackberry.com/en/2017/02/universal-unhooking-blinding-security-software), at least a few years ago, was cutting edge in the problem-space:
+The solution options to unhooking are fairly straight-forward: Disable the hook, or side-step it. [Cylance's approach to unhooking](https://blogs.blackberry.com/en/2017/02/universal-unhooking-blinding-security-software), leveraging a disabling approach, was cutting edge in the problem-space at the time of publication in 2017:
 
 > "Basically, in the user-land space, it goes through all the modules loaded into a process, and then for each module it opens the file, processes the data, [gets a] clean view of what the DLL should look like. And then for each section in the DLL that isn't writeable, we compare that clean version to the current version and if they don't match replace the current version with the clean." - Cylance CEO  Stuart McClure, RA Conference 2017
 But there's a weakness in this approach. It requires that the attacker trust the DLL on disk. By applying hooks to the DLLs on disk, a defender would theoretically win. While it is true that DLLs in the system folder are protected from modification, it is possible through drivers to redirect any filesystem loads of the protected system DLLs to the ones modified by the security product.
 
-## Target
-So I want to demonstrate a tool where one drops in a dynamically linked PE and outputs a statically linked one. Yes, the statically linked PE will only likely work on the Windows version it was compiled on. That's a limitation that can be worked around.
+## Disabling Approach
+
+A Disabling approach is any unhooking methodology which involves modifying hooked code in order to bypass or remove the hook.
+
+### Down-side of the Disabling Approach
+
+By overwriting the hooked DLLs with unhooked ones, Cylance takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it.
+
+### Benefit of the disabling approach
+
+This approach allows the attacker's payload to be portable. That's a big upside.
+
+## Side-stepping Approach
+
+A Side-Stepping approach is any unhooking methodology which involves using a trusted, clean copy of the DLL directly without modifying the defender's hooks.
+
+### Down-side of the side-stepping approach
+
+This approach is not portable. It requires the attacker to send a payload corresponding to the specific target host's Windows version. That adds a outbound network request which must avoid alerting the defender's sensors and analysts.
+
+### Benefits of side-stepping
+
+This approach does not require the attacker to trust the defender's DLL copies on disk.
+
 
 ## Problem
 
@@ -30,4 +52,4 @@ Doing this with source code is a simple matter of compiler flags. However, the r
 
 ## Objective
 
-The outcome this library seeks to achieve is cutting-edge unhooking via plug-and-play static re-linking. To address the portability limitation created by static linking, Windows kernel and API DLLs are stored into a database for each release of the OS. A loader is embedded which, when executed on a target machine, calls back to the C2 server, which statically links the corresponding OS API and sends it to the remote loader. This approach, while sophisticated, removes any opportunity for the defender's endpoint sensors to track activity through OS API hooks.
+The outcome this library seeks to achieve is cutting-edge unhooking via plug-and-play static re-linking. To address the portability limitation created by static linking, Windows kernel and API DLLs should be stored into a database table corresponding to each release of the OS. A loader is embedded which, when executed on a target machine, calls back to the C2 server, which statically links the corresponding OS API and sends it to the remote loader. This approach, while sophisticated, removes any opportunity for the defender's endpoint sensors to track activity through OS API hooks.
