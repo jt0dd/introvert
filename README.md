@@ -20,7 +20,7 @@ A Disabling approach is any unhooking methodology which involves modifying hooke
 
 ### Downside
 
-By overwriting the hooked DLLs with unhooked ones, the Disabling approach takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it. Additionally, this approach requires the attacker to trust the defender's DLLs on disk. While it is true that Windows protects files in the system folder from modification, a driver can be leveraged to [observe](https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/filter-manager-concepts) and redirect any file reads of the unhooked DLLs to retrieve hooked copies in an alternate location instead.
+By overwriting the hooked DLLs at run-time with unhooked ones, the Disabling approach takes an invasive measure. While provenly effective against a wide array of security products, a defender would only need inspect the DLLs at run-time to notice the hook removal and alert on the anomaly. In other words, the down-side is that this approach will only work until defenders patch their tools to address it. Additionally, this approach requires the attacker to trust the defender's DLLs on disk. While it is true that Windows protects files in the system folder from modification, a driver can be leveraged to [observe](https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/filter-manager-concepts) and redirect any file reads of the unhooked DLLs to retrieve hooked copies in an alternate location instead.
 
 ### Upside
 
