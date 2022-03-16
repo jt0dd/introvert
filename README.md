@@ -28,7 +28,7 @@ This approach allows the attacker's payload to be portable. That's a big upside.
 
 ## Side-stepping Approach
 
-A Side-Stepping approach is any unhooking methodology which involves using a trusted, clean copy of the DLL directly without modifying the defender's hooks. it also does not involve intrusive modification of an asset that an endpoint security product could easily notice.
+A Side-Stepping approach is any unhooking methodology which involves using a trusted, clean copy of the DLL directly without modifying the defender's hooks.
 
 ### Downside
 
@@ -36,7 +36,7 @@ This approach is not portable and results in a larger payload size. Because each
 
 ### Upside
 
-This approach does not require the attacker to trust the defender's DLL copies on disk.
+This approach does not require the attacker to trust the defender's DLL copies on disk. It also does not involve intrusive modification of an asset that an endpoint security product could easily notice.
 
 
 ## Problem
